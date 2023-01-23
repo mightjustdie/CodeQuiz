@@ -55,7 +55,7 @@ body {
     font-size: 1.25rem;
 }
 
-.start-btn, .next-btn {
+.start-btn {
     font-size: 1.5rem;
     font-weight: bold;
     padding: 10px 20px;
