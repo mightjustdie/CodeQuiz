@@ -39,6 +39,22 @@ body {
     border-color: white;
 }
 
+.btn.correct {
+    background-color: lightgreen;
+}
+
+.btn.wrong {
+    background-color: lightcoral;
+}
+
+.start-msg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 35px;
+    font-size: 1.25rem;
+}
+
 .start-btn, .next-btn {
     font-size: 1.5rem;
     font-weight: bold;
