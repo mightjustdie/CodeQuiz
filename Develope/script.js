@@ -4,9 +4,9 @@ const welcomeMsg = document.getElementById('welcome')
 const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answer-buttons')
 
- shuffledQuestions, currentQuestionedIndex
-
-startButton.addEventListener('click', startGame)
+let shuffledQuestions, currentQuestionedIndex
+ 
+ startButton.addEventListener('click', startGame)
 
 function startGame() {
 console.log('Started')
