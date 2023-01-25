@@ -12,6 +12,14 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+.timer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 2rem;
+}
+
 .container {
 
     width: 800px;
