@@ -3,15 +3,17 @@ const questionContainerElement = document.getElementById('question-container')
 const welcomeMsg = document.getElementById('welcome')
 const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answer-buttons')
-var count = "";
-var counter = setInterval(timer,1000);
+let count = "";
+let counter = setInterval(timer,1000);
+let correctAnswers = 0;
+let wrongAnswers = 0;
+let playerScore
 
 let shuffledQuestions, currentQuestionedIndex
  
 startButton.addEventListener('click', startGame)
 
 function startGame() {
-
 console.log('Started')
 count = 60;
 counter = setInterval(timer, 1000);
@@ -24,7 +26,7 @@ setNextQuestion()
 }
 
 function timer() {
-    count = count - 1;
+    count = count - 1;0
     if (count <=0) {
         clearInterval(counter);
         return;
@@ -34,7 +36,15 @@ function timer() {
 
 function setNextQuestion() {
     resetState()
+    clearStatusClass()
     showQuestion(shuffledQuestions[currentQuestionedIndex])
+    checkGameOver()
+    currentQuestionedIndex++
+}
+
+function checkGameOver() {
+
+    // endGame()
 }
 
 function showQuestion(question) {
@@ -53,25 +63,32 @@ function showQuestion(question) {
 
 function resetState() {
     while (answerButtonsElement.firstChild) {
-        answerButtonsElement.removeChild
-        (answerButtonsElement.firstChild)
+        answerButtonsElement.removeChild(answerButtonsElement.firstChild);
     }
 }
 
 function selectAnswer(e) {
     const selectedButton = e.target
     const correct = selectedButton.dataset.correct
-    setStatusClass(document.body, correct)
-    Array.from(answerButtonsElement.children).forEach(button => {
-        setStatusClass(button, button.dataset.correct)
-    });
-    if(!correct) {
+    if (correct) {
+        correctAnswers++;
+        setStatusClass(selectedButton, correct)
+        setNextQuestion()
+    } else {
+        wrongAnswers++;
+        alert('Wrong answer. You lost 10 seconds!')
         setTimeout(() => {
-            count -= 5;
+            count -= 10;
             document.getElementById("timer").innerHTML=count + " secs";
         },);
     }
+    Array.from(answerButtonsElement.children).forEach(button => {
+        if (button.dataset.correct) {
+            setStatusClass(button, button.dataset.correct)
+        }
+    });
 }
+
 
 function setStatusClass(element, correct) {
     clearStatusClass(element)
@@ -87,79 +104,108 @@ function clearStatusClass(element) {
     element.classList.remove('wrong')
 }
 
+function endGame() {
+    document.getElementById('timer').classList.add('hide')
+    const playerInitials = prompt('Enter your initials:')
+    if(playerInitials !== null) {
+    localStorage.setItem('initials',playerInitials)
+    localStorage.setItem('score', playerScore)
+    } else {
+        alert("You have to enter something to procede.")
+        endGame()
+    }
+}
+
 const questions = [
     {
         question: 'What is a function?',
         answers: [
             { text: 'a block of code designed to perform a particular task', correct: true },
+            { text: 'a container for storing data', correct: false },
+            { text: 'it makes ice cream', correct: false },
+            { text: 'a true or false statement', correct: false },
+        ]
+    },
+    {
+    question: 'What is boolean?',
+        answers: [
             { text: 'containers for storing data', correct: false },
-            { text: 'containers for storing data', correct: false },
-            { text: 'containers for storing data', correct: false },
-        ],
-        question: '',
+            { text: 'a term for a cockroach', correct: false },
+            { text: 'a true or false statement', correct: true },
+            { text: 'another term for variable', correct: false },
+        ]
+    },
+    {    
+    question: 'What is a variable?',
         answers: [
-            { text: '', correct: true },
-            { text: '', correct: false },
-            { text: '', correct: false },
-            { text: '', correct: false },
-        ],
-        question: '',
+            { text: 'a container for storing data', correct: true },
+            { text: 'it prints text to the console', correct: false },
+            { text: 'a true or false statement', correct: false },
+            { text: 'a block of code designed to perform a particular task', correct: false },
+        ]
+    },   
+    {
+        question: 'What can you use to call a variable?',
         answers: [
-            { text: '', correct: true },
-            { text: '', correct: false },
-            { text: '', correct: false },
-            { text: '', correct: false },
-        ],
-        question: '',
+            { text: '"apple", "bird", or "tooth"', correct: false },
+            { text: '"else" or "if"', correct: false },
+            { text: '"div"', correct: false },
+            { text: '"const", "var", or "let"', correct: true },
+        ]
+    },
+    {   
+        question: 'What is an if statement?',
         answers: [
-            { text: '', correct: true },
+            { text: '', correct: false },
+            { text: 'executes a block of code if a specified condition is true.', correct: true },
             { text: '', correct: false },
             { text: '', correct: false },
-            { text: '', correct: false },
-        ],
-        question: '',
+        ]
+    },   
+    {
+        question: 'What is a for loop?',
         answers: [
-            { text: '', correct: true },
             { text: '', correct: false },
             { text: '', correct: false },
             { text: '', correct: false },
-        ],
-        question: '',
+            { text: 'an iterative statement which you use to check for certain conditions and then repeatedly execute a block of code as long as those conditions are met.', correct: true },
+        ]
+        },   
+        {
+        question: 'What does "Math.random()" do?',
         answers: [
-            { text: '', correct: true },
+            { text: 'Returns a random number between 0 and 1.', correct: true },
             { text: '', correct: false },
+            { text: 'does random math obviously.', correct: false },
             { text: '', correct: false },
-            { text: '', correct: false },
-        ],
-        question: '',
+        ]
+        },   
+        {
+        question: 'What is an object?',
         answers: [
-            { text: '', correct: true },
+            { text: '', correct: false },
+            { text: 'a standalone entity, with properties and type.', correct: true },
             { text: '', correct: false },
             { text: '', correct: false },
-            { text: '', correct: false },
-        ],
-        question: '',
+        ]
+        },
+        {
+        question: 'Which is an example of a string?',
         answers: [
-            { text: '', correct: true },
-            { text: '', correct: false },
-            { text: '', correct: false },
-            { text: '', correct: false },
-        ],
-        question: '',
+            { text: '0', correct: false },
+            { text: '"true"', correct: true },
+            { text: 'true', correct: false },
+            { text: '[0,1,2,3,4]', correct: false },
+        ]
+    },
+        {
+        question: 'What does this line of code do?   let example = true',
         answers: [
-            { text: '', correct: true },
-            { text: '', correct: false },
-            { text: '', correct: false },
-            { text: '', correct: false },
-        ],
-        question: '',
-        answers: [
-            { text: '', correct: true },
-            { text: '', correct: false },
-            { text: '', correct: false },
-            { text: '', correct: false },
-        ],
-    
+            { text: 'Creates a function named "example" that has a true value', correct: false },
+            { text: 'Creates a letter named "example" that has a true value', correct: false },
+            { text: 'Creates a for loop named "example" that has a true value', correct: false },
+            { text: 'Creates a variable named "example" that has a true value', correct: true },
+        ]
     }
 
 ]
