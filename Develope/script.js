@@ -87,6 +87,9 @@ function selectAnswer(e) {
             setStatusClass(button, button.dataset.correct)
         }
     });
+    if(!correct){
+    return;
+    }
 }
 
 
@@ -100,8 +103,10 @@ function setStatusClass(element, correct) {
 }
 
 function clearStatusClass(element) {
+    if(element){
     element.classList.remove('correct')
     element.classList.remove('wrong')
+    }
 }
 
 function endGame() {
